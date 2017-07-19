@@ -11,9 +11,7 @@ NfcAdapter nfc = NfcAdapter(pn532spi);
 #define unknwonTag "?"
 #define noRecordFound "n"
 #define idxRecordNotFound "i"
-String lastTag = unknwonTag;
-
-int lastMode = 0;
+char lastTag = unknwonTag;
 
 void setup() {
   Serial.begin(9600);
@@ -32,21 +30,21 @@ void loop() {
     // Record 0 : is the name
     // Record 1 : is timeStamp (millis :/)
     // Record 2 : is the size expected
-    int newMode = readSizeAsIntMode();
+    char newTag = readSizeAsChar();
     
     Serial.print("New Tag : [");
-    Serial.print(String(newMode));
+    Serial.print(String(newTag));
     Serial.println("]");
 
-    if (newMode != lastMode) {
+    if (newTag != lastTag) {
       Serial.println("Brand New !!!!!!!!!!!!");
-      lastMode = newMode;
+      lastTag = newTag;
     }
 
   }
 
   Serial.print("Old Tag is : [");
-  Serial.print(String(lastMode));
+  Serial.print(String(lastTag));
   Serial.println("] !!!!");
 
 }
@@ -107,7 +105,7 @@ String readRecord(int idxRecord) {
   }
 }
 
-int readSizeAsIntMode() {
+char readSizeAsChar() {
 
   NfcTag tag = nfc.read();
 
@@ -138,25 +136,19 @@ int readSizeAsIntMode() {
       payloadAsString += (char)payload[c];
     }
 
-    Serial.print("NDEF Record : ");
-    Serial.print(" : Payload (as String):");
-    Serial.print(payloadAsString);
-    Serial.println();
-
-    // Second Record : Name of the tag
-    int mode = 0;
+    char result = payloadAsString.charAt(1);
+    //byte byteResult = payloadAsString.getBytesAt(1);
     
-    if(payloadAsString.startsWith("X")){
-      mode = 1;
-    }else if(payloadAsString.startsWith("S")){
-      mode = 2;
-    }else if(payloadAsString.startsWith("M")){
-      mode = 3;
-    }else if(payloadAsString.startsWith("L")){
-      mode = 4;
-    }
-
-    return mode;
+    Serial.print("NDEF Record : ");
+    Serial.print("Payload (as String):");
+    Serial.print(payloadAsString);
+    Serial.print(" Char 0 :");
+    Serial.print(String(result));
+    Serial.print(" Char 0 as Int:");
+    Serial.print(String(result, HEX));
+    Serial.println();
+    
+    return result;
 
   }
 }
