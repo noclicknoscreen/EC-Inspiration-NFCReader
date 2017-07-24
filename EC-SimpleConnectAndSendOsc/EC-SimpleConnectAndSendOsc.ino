@@ -32,15 +32,7 @@ void setup() {
 void loop() {
   // check the network connection once every 10 seconds:
   delay(1000);
-
-
-  String myMessage = "";
-  //myMessage += String(millis());
-  myMessage += "/message s=DEDEDEDEDE";
-  oscViaWifi.udpSend(myMessage);
-  Serial.println(myMessage);
-  
-  //oscViaWifi.printInfos();
+  oscViaWifi.udpLoop('x');
   
 }
 

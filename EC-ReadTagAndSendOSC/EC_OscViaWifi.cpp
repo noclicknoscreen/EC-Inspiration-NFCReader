@@ -50,35 +50,39 @@ void OscViaWifi::udpSetup(int _localPort) {
 }
 
 void OscViaWifi::udpLoop(char _tagSize) {
-
-  char packetBuffer[255]; //buffer to hold incoming packet
-  //char  ReplyBuffer[] = "acknowledged";       // a string to send back
-
-
-  // if there's data available, read a packet
-  int packetSize = Udp.parsePacket();
-  if (packetSize)
+  // if there's data available, read a packet and reply
+  if (Udp.parsePacket())
   {
-    Serial.print("Received packet of size ");
-    Serial.println(packetSize);
-    Serial.print("From ");
-    IPAddress remoteIp = Udp.remoteIP();
-    Serial.print(remoteIp);
-    Serial.print(", port ");
-    Serial.println(Udp.remotePort());
-
-    // read the packet into packetBufffer
-    int len = Udp.read(packetBuffer, 255);
-    if (len > 0) packetBuffer[len] = 0;
-    Serial.println("Contents:");
-    Serial.println(packetBuffer);
-
-    // send a reply, to the IP address and port that sent us the packet we received
-    Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
-    Udp.write(_tagSize);
-    Udp.endPacket();
+    udpRead();
+    udpSend(_tagSize);
   }
+}
 
+void OscViaWifi::udpRead() {
+  char packetBuffer[255]; //buffer to hold incoming packet
+
+  int packetSize = Udp.parsePacket();
+
+  Serial.print("Received packet of size ");
+  Serial.println(packetSize);
+  Serial.print("From ");
+  IPAddress remoteIp = Udp.remoteIP();
+  Serial.print(remoteIp);
+  Serial.print(", port ");
+  Serial.println(Udp.remotePort());
+
+  // read the packet into packetBufffer
+  int len = Udp.read(packetBuffer, 255);
+  if (len > 0) packetBuffer[len] = 0;
+  Serial.println("Contents:");
+  Serial.println(packetBuffer);
+}
+
+void OscViaWifi::udpSend(char _tagSize) {
+  // send a reply, to the IP address and port that sent us the packet we received
+  Udp.beginPacket(Udp.remoteIP(), Udp.remotePort());
+  Udp.write(_tagSize);
+  Udp.endPacket();
 }
 
 void OscViaWifi::printInfos() {

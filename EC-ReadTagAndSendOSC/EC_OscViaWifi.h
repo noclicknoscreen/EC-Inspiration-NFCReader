@@ -4,7 +4,10 @@
 
    Author : Sébastien Albert
    Created : 2017/07/21
-   Updated : 2017/07/21
+   Updated : 2017/07/24
+
+   Version : 1.2
+   
 */
 
 #ifndef Morse_h
@@ -32,6 +35,8 @@ class OscViaWifi {
     
     void udpSetup(int _localPort);
     void udpLoop(char _tagSize);
+    void udpRead();
+    void udpSend(char _tagSize);
     
     void printInfos();
     
