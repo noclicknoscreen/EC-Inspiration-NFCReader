@@ -15,6 +15,7 @@
 
 #include "EC_OscViaWifi.h"
 
+OscViaWifi oscViaWifi;
 
 void setup() {
   //Initialize serial and wait for port to open:
@@ -23,14 +24,24 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  netSetup();
+  oscViaWifi.wifiSetup("InspirationHub", "Inspiration");
+  oscViaWifi.udpSetup(2390);
   
 }
 
 void loop() {
   // check the network connection once every 10 seconds:
-  delay(10000);
-  printCurrentNet();
+  delay(1000);
+
+
+  String myMessage = "";
+  //myMessage += String(millis());
+  myMessage += "/message s=DEDEDEDEDE";
+  oscViaWifi.udpSend(myMessage);
+  Serial.println(myMessage);
+  
+  //oscViaWifi.printInfos();
+  
 }
 
 
