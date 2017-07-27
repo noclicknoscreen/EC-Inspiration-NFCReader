@@ -4,11 +4,14 @@
 
 void OscViaWifi::wifiSetup(String _ssid, String _pass) {
 
-  char* ssid;     //  your network SSID (name)
-  char* pass;        // your network password
+  //char* ssid;     //  your network SSID (name)
+  //char* pass;        // your network password
+  //_ssid.toCharArray(ssid, _ssid.length());
+  //_pass.toCharArray(pass, _pass.length());
 
-  _ssid.toCharArray(ssid, _ssid.length());
-  _pass.toCharArray(pass, _pass.length());
+  char ssid[] = "InspirationHub";
+  char pass[] = "Inspiration";  // your network password
+
 
   //Check if communication with the wifi module has been established
   if (WiFi.status() == WL_NO_WIFI_MODULE_COMM) {
@@ -17,24 +20,41 @@ void OscViaWifi::wifiSetup(String _ssid, String _pass) {
   }
 
   // attempt to connect to Wifi network:
-  while ( status != WL_CONNECTED) {
-    Serial.print("Attempting to connect to WPA");
-    Serial.print(" SSID: ");
-    Serial.print(_ssid);
-    Serial.print(" PASS: ");
-    Serial.println(_pass);
+  //while ( status != WL_CONNECTED) {
+  Serial.print("Attempting to connect to WPA");
+  Serial.print(" SSID: ");
+  Serial.print(_ssid);
+  Serial.print(" PASS: ");
+  Serial.println(_pass);
+  // Connect to WPA/WPA2 network:
+  status = WiFi.begin(ssid, pass);
 
-    // Connect to WPA/WPA2 network:
-    status = WiFi.begin(ssid, pass);
+  Serial.print("Connection Result :  ");
+  Serial.println(String(status));
+  Serial.print("Status waiting :  ");
+  Serial.println(String(WL_CONNECTED));
+  Serial.print("WL_CONNECTED:"); Serial.println(String(WL_CONNECTED));
+  Serial.print("WL_CONNECT_FAILED:"); Serial.println(String(WL_CONNECT_FAILED));
+  Serial.print("WL_CONNECTION_LOST:"); Serial.println(String(WL_CONNECTION_LOST));
+  Serial.print("WL_DISCONNECTED:"); Serial.println(String(WL_DISCONNECTED));
 
-    // wait 10 seconds for connection:
-    delay(10000);
+  //}
+
+  // wait 10 seconds for connection:
+  for (int idxLoop = 0; idxLoop < 10; idxLoop++) {
+    Serial.print("Waiting for ");
+    Serial.print(String(idxLoop));
+    Serial.println(" seconds !");
+    delay(1000);
   }
 
   // you're connected now, so print out the data:
   Serial.print("You're connected to the network");
   // Get the mac address
   WiFi.macAddress(myMac);
+
+  printInfos();
+
 }
 
 
@@ -99,18 +119,20 @@ void OscViaWifi::printWifiData() {
   Serial.println(myIp);
 
   // print your MAC address:
+  byte mac[6];
+  WiFi.macAddress(mac);
   Serial.print("MAC address: ");
-  Serial.print(myMac[5], HEX);
+  Serial.print(mac[5], HEX);
   Serial.print(":");
-  Serial.print(myMac[4], HEX);
+  Serial.print(mac[4], HEX);
   Serial.print(":");
-  Serial.print(myMac[3], HEX);
+  Serial.print(mac[3], HEX);
   Serial.print(":");
-  Serial.print(myMac[2], HEX);
+  Serial.print(mac[2], HEX);
   Serial.print(":");
-  Serial.print(myMac[1], HEX);
+  Serial.print(mac[1], HEX);
   Serial.print(":");
-  Serial.println(myMac[0], HEX);
+  Serial.println(mac[0], HEX);
 
 }
 

@@ -4,8 +4,6 @@
 #include <PN532.h>
 #include <NfcAdapter.h>
 
-#include "EC_OscViaWifi.h"
-
 PN532_SPI pn532spi(SPI, 10);
 NfcAdapter nfc = NfcAdapter(pn532spi);
 
@@ -17,23 +15,16 @@ NfcAdapter nfc = NfcAdapter(pn532spi);
 */
 char lastTag = unknwonTag;
 
-
-OscViaWifi oscViaWifi;
-
 void setup() {
   Serial.begin(9600);
-  Serial.println("NDEF Writer");
+  //Serial.println("NDEF Writer");
   nfc.begin();
-
-  oscViaWifi.wifiSetup("InspirationHub", "Inspiration");
-  oscViaWifi.udpSetup(2390);
-  
 }
 
 void loop() {
 
-  Serial.println("Place your tag. Waiting for reading");
-  Serial.println("1 Second wait.");
+  //Serial.println("Place your tag. Waiting for reading");
+  //Serial.println("1 Second wait.");
   delay(1000);
 
   if (nfc.tagPresent()) {
@@ -43,23 +34,20 @@ void loop() {
     // Record 2 : is the size expected
     char newTag = readSizeAsChar();
     
-    Serial.print("New Tag : [");
-    Serial.print(String(newTag));
-    Serial.println("]");
+    //Serial.print("New Tag : [");
+    //Serial.print(String(newTag));
+    //Serial.println("]");
 
     if (newTag != lastTag) {
-      Serial.println("Brand New !!!!!!!!!!!!");
+      //Serial.println("Brand New !!!!!!!!!!!!");
       lastTag = newTag;
-      //oscViaWifi.udpSend(lastTag);
     }
 
   }
 
-  Serial.print("Old Tag is : [");
-  Serial.print(String(lastTag));
-  Serial.println("] !!!!");
-  
-  //oscViaWifi.udpLoop(lastTag);
+  //Serial.print("Old Tag is : [");
+  Serial.println(String(lastTag));
+  //Serial.println("] !!!!");
 
 }
 
@@ -86,11 +74,11 @@ String readRecord(int idxRecord) {
 
     // Trapping unexpected behaviors
     if (recordCount == 0) {
-      Serial.print("No Record found.");
+      //Serial.print("No Record found.");
       return "n";
     }
     if (idxRecord >= recordCount) {
-      Serial.print("Idx record not found.");
+      //Serial.print("Idx record not found.");
       return "i";
     }
 
@@ -107,12 +95,12 @@ String readRecord(int idxRecord) {
     for (int c = 0; c < payloadLength; c++) {
       payloadAsString += (char)payload[c];
     }
-
+/*
     Serial.print("NDEF Record : "); Serial.print(idxRecord);
     Serial.print(" : Payload (as String): ");
     Serial.print(payloadAsString);
     Serial.println();
-
+*/
     // Second Record : Name of the tag
     return payloadAsString;
 
@@ -132,7 +120,7 @@ char readSizeAsChar() {
 
     // Trapping unexpected behaviors
     if (recordCount == 0) {
-      Serial.print("No Record found.");
+      //Serial.print("No Record found.");
       return 'n';
     }
     
@@ -152,7 +140,7 @@ char readSizeAsChar() {
 
     char result = payloadAsString.charAt(1);
     //byte byteResult = payloadAsString.getBytesAt(1);
-    
+    /*
     Serial.print("NDEF Record : ");
     Serial.print("Payload (as String):");
     Serial.print(payloadAsString);
@@ -161,7 +149,7 @@ char readSizeAsChar() {
     Serial.print(" Char 0 as Int:");
     Serial.print(String(result, HEX));
     Serial.println();
-    
+    */
     return result;
 
   }

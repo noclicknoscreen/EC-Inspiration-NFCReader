@@ -10,8 +10,8 @@
    
 */
 
-#ifndef Morse_h
-#define Morse_h
+#ifndef EC_OSCViaWifi_h
+#define EC_OSCViaWifi_h
 
 #include <Arduino.h>
 #include <WiFiLink.h>
