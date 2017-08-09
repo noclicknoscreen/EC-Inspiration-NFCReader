@@ -50,7 +50,7 @@ void loop() {
   }
 
   // Wait a bit
-  //delay(50);
+  delay(50);
 
 }
 
