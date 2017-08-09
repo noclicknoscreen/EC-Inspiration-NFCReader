@@ -23,7 +23,7 @@ class OscViaWifi {
   private:
     //    char ssid[] = "InspirationHub";     //  your network SSID (name)
     //    char pass[] = "Inspiration";        // your network password
-    int status = WL_IDLE_STATUS;        // the Wifi radio's status
+    //int status = WL_IDLE_STATUS;        // the Wifi radio's status
 
     // UDP members
     byte myMac[6];
@@ -31,6 +31,7 @@ class OscViaWifi {
     WiFiUDP Udp;
     
   public:
+    void errorBlink(unsigned int delayMs);
     void wifiSetup(String _ssid, String _pass);
     
     void udpSetup(int _localPort);

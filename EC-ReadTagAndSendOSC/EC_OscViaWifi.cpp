@@ -1,6 +1,13 @@
-
-
 #include "EC_OscViaWifi.h"
+
+#define CTRL_LED 13
+
+void OscViaWifi::errorBlink(unsigned int delayMs) {
+  digitalWrite(CTRL_LED, HIGH);
+  delay(delayMs / 2);
+  digitalWrite(CTRL_LED, LOW);
+  delay(delayMs / 2);
+}
 
 void OscViaWifi::wifiSetup(String _ssid, String _pass) {
 
@@ -20,6 +27,19 @@ void OscViaWifi::wifiSetup(String _ssid, String _pass) {
   }
 
   // attempt to connect to Wifi network:
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, pass);
+
+  pinMode(CTRL_LED, OUTPUT);
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    errorBlink(50);
+  }
+  Serial.println("");
+  /*
   //while ( status != WL_CONNECTED) {
   Serial.print("Attempting to connect to WPA");
   Serial.print(" SSID: ");
@@ -28,7 +48,8 @@ void OscViaWifi::wifiSetup(String _ssid, String _pass) {
   Serial.println(_pass);
   // Connect to WPA/WPA2 network:
   status = WiFi.begin(ssid, pass);
-
+  */
+  /*
   Serial.print("Connection Result :  ");
   Serial.println(String(status));
   Serial.print("Status waiting :  ");
@@ -37,7 +58,7 @@ void OscViaWifi::wifiSetup(String _ssid, String _pass) {
   Serial.print("WL_CONNECT_FAILED:"); Serial.println(String(WL_CONNECT_FAILED));
   Serial.print("WL_CONNECTION_LOST:"); Serial.println(String(WL_CONNECTION_LOST));
   Serial.print("WL_DISCONNECTED:"); Serial.println(String(WL_DISCONNECTED));
-
+  */
   //}
 
   // wait 10 seconds for connection:
