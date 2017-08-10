@@ -8,6 +8,7 @@ void setup() {
   pinMode(CTRL_LED, OUTPUT);
 
   NFCInit();
+  
   OscInit();
 
 }
@@ -26,7 +27,7 @@ void loop() {
     Serial.print("Brand New Tag : [");
     Serial.print(String(currentTag));
     Serial.println("]");
-    sendTag(currentTag, IN_BONUS);
+    sendTag(currentTag, IN_BONUS, getNextBonus(currentTag));
     lastTag = currentTag;
   }
 
@@ -38,7 +39,7 @@ void loop() {
     Serial.print("Removed old Tag : [");
     Serial.print(String(lastTag));
     Serial.println("]");
-    sendTag(lastTag, OUT_BONUS);
+    sendTag(lastTag, OUT_BONUS, getCurrentBonus(lastTag));
     lastTag = currentTag;
   }
 
