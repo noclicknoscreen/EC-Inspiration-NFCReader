@@ -1,6 +1,7 @@
-#include "Common.h"
 #include "Osc.h"
 #include "NFC.h"
+
+#define CTRL_LED 13
 
 void setup() {
   Serial.begin(115200);
@@ -25,7 +26,7 @@ void loop() {
     Serial.print("Brand New Tag : [");
     Serial.print(String(currentTag));
     Serial.println("]");
-    sendTagIn(currentTag);
+    sendTag(currentTag, IN_BONUS);
     lastTag = currentTag;
   }
 
@@ -37,14 +38,16 @@ void loop() {
     Serial.print("Removed old Tag : [");
     Serial.print(String(lastTag));
     Serial.println("]");
-    sendTagOut(lastTag);
+    sendTag(lastTag, OUT_BONUS);
     lastTag = currentTag;
   }
 
   else {
-
+    /*
     Serial.print(millis());
     Serial.println(" : Place your tag. Waiting for reading.");
+    */
+    Serial.print(".");
     //  Serial.println("1 Second wait.");
 
   }

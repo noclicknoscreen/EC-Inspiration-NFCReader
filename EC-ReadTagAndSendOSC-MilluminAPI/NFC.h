@@ -1,5 +1,7 @@
 #include <Arduino.h>
-#include "Common.h"
+#include <NCNS-ArduinoTools.h>
+
+#define CTRL_LED 13
 
 // NFC Dependencies ----------------------------
 #include <SPI.h>
@@ -69,7 +71,7 @@ char readSizeAsChar() {
 
       char result = payloadAsString.charAt(1);
       //byte byteResult = payloadAsString.getBytesAt(1);
-
+      /*
       Serial.print("NDEF Record : ");
       Serial.print("Payload (as String):");
       Serial.print(payloadAsString);
@@ -78,7 +80,7 @@ char readSizeAsChar() {
       Serial.print(" Char 0 as Int:");
       Serial.print(String(result, HEX));
       Serial.println();
-
+      */
       return result;
 
     } else {

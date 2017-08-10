@@ -1,5 +1,7 @@
 #include <Arduino.h>
-#include "Common.h"
+#include <NCNS-ArduinoTools.h>
+
+#define CTRL_LED 13
 
 // Wifi Dependencies ----------------------------
 #include <WiFiLink.h>
