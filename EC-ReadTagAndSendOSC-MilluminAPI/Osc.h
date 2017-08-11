@@ -13,8 +13,8 @@
 // -------------------------------------------------
 // Wifi Section
 // -------------------------------------------------
-char ssid[] = "InspirationHub";          // your network SSID (name)
-char pass[] = "Inspiration";                    // your network password
+char ssid[] = "linksys-MedenAgan";          // your network SSID (name)
+char pass[] = "Edwood72";                    // your network password
 
 WiFiUDP Udp;
 const unsigned int localPort = 2390;        // local port to listen for UDP packets (here's where we send the packets)
@@ -23,7 +23,7 @@ const unsigned int localPort = 2390;        // local port to listen for UDP pack
 // OSC Section
 // -------------------------------------------------
 //destination IP
-IPAddress outIp(192, 168, 2, 131);
+IPAddress outIp(192, 168, 2, 31);
 const unsigned int outPort = 5000;
 
 // -------------------------------------------------
@@ -42,8 +42,27 @@ int xColBonus, sColBonus, mColBonus, lColBonus;
 void OscInit() {
 
   // WiFi Init --------------------------------
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
+  byte mac[6];
+  WiFi.macAddress(mac);
+  Serial.print("MAC Address: ");
+  Serial.print(mac[0], HEX);
+  Serial.print(":");
+  Serial.print(mac[1], HEX);
+  Serial.print(":");
+  Serial.print(mac[2], HEX);
+  Serial.print(":");
+  Serial.print(mac[3], HEX);
+  Serial.print(":");
+  Serial.print(mac[4], HEX);
+  Serial.print(":");
+  Serial.println(mac[5], HEX);
+  
+  Serial.print("Connecting to SSID [");
+  Serial.print(ssid);
+  Serial.print("] pass [");
+  Serial.print(pass);
+  Serial.println("]");
+  
   WiFi.begin(ssid, pass);
 
   while (WiFi.status() != WL_CONNECTED) {
